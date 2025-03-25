@@ -189,18 +189,19 @@ imu::Quaternion quat = bno.getQuat();
     pitch *= 180.0 / M_PI;
     yaw   *= 180.0 / M_PI;
 
-    // Убираем отрицательные значения курса
-    if (yaw < 0) {
-        yaw += 360;
-    }
+    float magnetic_declination = 7.5;  // Для Киева (уточните для вашего местоположения!)
+    float true_yaw = yaw + magnetic_declination;  // Учитываем склонение
+
+    // Приводим к диапазону 0°...360°
+    if (true_yaw >= 360) true_yaw -= 360;
+    if (true_yaw < 0) true_yaw += 360;
+
+  
 
     // Вывод на дисплей
     display.clearDisplay();
-    display.setCursor(0, 0);              
-    display.print("roll ");  display.println(roll);
-    display.print("pit  ");  display.println(pitch);
-    display.print("yaw  ");  
-    display.println(yaw);
+    display.setCursor(0, 0);                
+    display.println(true_yaw);
     display.display();
 
     delay(BNO055_SAMPLERATE_DELAY_MS);
