@@ -121,7 +121,19 @@ display.stopscroll(); // Остановить прокрутку
  
 display.setContrast(contrast); // contrast: 0-255
 
+# Пример:
 
+ display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Инициализация + создание буфера
+ 
+ display.clearDisplay(); // Буфер заполнен 0 (экран чёрный)
+  
+ // Рисуем пиксель в буфере (но на экране пока ничего нет!)
+ 
+ display.drawPixel(10, 10, SSD1306_WHITE);
+  
+ // Теперь выводим буфер на экран
+ 
+ display.display();
 
 
 
