@@ -6,6 +6,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+#include <math.h>
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -115,7 +116,7 @@ void setup() {
   display.setRotation(2); // 0-нормально, 1-90°, 2-180°, 3-270°
 
   display.display(); // Показать лого Adafruit
-  delay(2000);
+  delay(500);
   display.clearDisplay();
   
   display.setTextSize(1);               // Размер шрифта (1-8)
@@ -137,11 +138,10 @@ void setup() {
     bno.getCalibration(&sys, &gyro, &accel, &mag);
     Serial.print("M:"); Serial.println(mag);
 
-      display.clearDisplay();
+      // display.clearDisplay();
       display.setCursor(0, 0);              
       display.println("Rotate the sensor in a figure-eight motion for 15-20 seconds...");
-      display.setCursor(50, 40);              
-      display.println(mag); 
+      display.drawCircle(mag*32+16, 40, 10, 1 ); 
       display.display();
 
     delay(500);
@@ -159,14 +159,49 @@ void setup() {
 
   displaySensorOffsets(calibrationData);
   bno.setSensorOffsets(calibrationData);
+  bno.setExtCrystalUse(true);
+
  
  display.clearDisplay();
- display.setCursor(50, 40);              
- display.println(mag);
- display.display();   
+ display.display();  
+ display.setTextSize(2); 
 }
 
 void loop() {
 
+imu::Quaternion quat = bno.getQuat();
+    float q0 = quat.w();  // Проверьте порядок! Возможно, quat.x() — это w.
+    float q1 = quat.x();
+    float q2 = quat.y();
+    float q3 = quat.z();
 
+    // Опционально: нормализация (если кватернион не нормализован)
+    float norm = sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
+    q0 /= norm; q1 /= norm; q2 /= norm; q3 /= norm;
+
+    // Правильные формулы для углов Эйлера
+    float roll  = atan2(2*(q0*q1 + q2*q3), 1 - 2*(q1*q1 + q2*q2));
+    float pitch = asin(2*(q0*q2 - q3*q1));
+    float yaw   = atan2(2*(q0*q3 + q1*q2), 1 - 2*(q2*q2 + q3*q3));  // Без -M_PI/2!
+
+    // Перевод в градусы (опционально)
+    roll  *= 180.0 / M_PI;
+    pitch *= 180.0 / M_PI;
+    yaw   *= 180.0 / M_PI;
+
+    // Убираем отрицательные значения курса
+    if (yaw < 0) {
+        yaw += 360;
+    }
+
+    // Вывод на дисплей
+    display.clearDisplay();
+    display.setCursor(0, 0);              
+    display.print("roll ");  display.println(roll);
+    display.print("pit  ");  display.println(pitch);
+    display.print("yaw  ");  
+    display.println(yaw);
+    display.display();
+
+    delay(BNO055_SAMPLERATE_DELAY_MS);
 }
