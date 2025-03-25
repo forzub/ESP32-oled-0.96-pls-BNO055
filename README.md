@@ -28,6 +28,104 @@ Adafruit GFX libruary
 
 Adafruit SSD1306
 
+# Основные функции:
+
+# Очистка дисплея 
+
+display.clearDisplay(); // Очищает буфер (но не обновляет дисплей)
+
+# Обновление дисплея 
+
+display.display(); // Выводит буфер на экран
+
+# Рисование пикселя 
+
+display.drawPixel(x, y, color); // color: SSD1306_WHITE, SSD1306_BLACK
+
+# Рисование линии 
+
+display.drawLine(x0, y0, x1, y1, color);
+
+# Рисование прямоугольника 
+
+display.drawRect(x, y, width, height, color); // Контур
+
+display.fillRect(x, y, width, height, color); // Залитый
+
+# Рисование окружности
+
+display.drawCircle(x, y, radius, color); // Контур
+
+display.fillCircle(x, y, radius, color); // Залитая
+
+# Рисование треугольника
+
+display.drawTriangle(x0, y0, x1, y1, x2, y2, color); // Контур
+
+display.fillTriangle(x0, y0, x1, y1, x2, y2, color); // Залитый
+
+# Рисование прямоугольника со скругленными углами
+
+display.drawRoundRect(x, y, width, height, radius, color); // Контур
+
+display.fillRoundRect(x, y, width, height, radius, color); // Залитый
+
+# Настройка шрифта и цвета
+ 
+display.setTextSize(1);      // Размер текста (1-8)
+
+display.setTextColor(SSD1306_WHITE); // Цвет (SSD1306_WHITE или SSD1306_BLACK)
+
+display.setTextWrap(true);   // Перенос текста (true/false)
+
+# Установка курсора (позиция текста)
+ 
+display.setCursor(x, y); // (x, y) - начальная позиция текста
+
+# Печать текста
+ 
+display.print("Hello, World!"); // Вывод текста
+
+display.println("New line");    // С новой строки
+
+# Использование разных шрифтов (требует подключения GFX)
+ 
+#include <Fonts/FreeSans9pt7b.h> // Подключение шрифта
+
+display.setFont(&FreeSans9pt7b); // Установка шрифта
+
+display.print("Custom Font");
+
+display.setFont(NULL); // Вернуться к стандартному шрифту
+
+#  Дополнительные функции
+# Инверсия цветов
+ 
+display.invertDisplay(true);  // Инвертировать цвета
+
+display.invertDisplay(false); // Вернуть нормальные цвета
+
+# Прокрутка (скроллинг)
+ 
+display.startscrollright(start, stop);  // Прокрутка вправо
+
+display.startscrollleft(start, stop);   // Прокрутка влево
+
+display.startscrolldiagright(start, stop); // Диагональная прокрутка
+
+display.startscrolldiagleft(start, stop);  // Диагональная прокрутка
+
+display.stopscroll(); // Остановить прокрутку 
+
+# Установка контраста
+ 
+display.setContrast(contrast); // contrast: 0-255
+
+
+
+
+
+
 
 
 ![image](https://github.com/user-attachments/assets/a6524f43-1c7a-46b6-b425-dd3ca4a4e8b8)
