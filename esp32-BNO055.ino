@@ -3,10 +3,6 @@
 #include <Adafruit_SSD1306.h>
 #include <splash.h>
 
-// #include <Wire.h>
-// #include "SSD1306Wire.h"
-
-
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
@@ -21,11 +17,6 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x29, &Wire);
 
 adafruit_bno055_offsets_t calibrationData;
-
-// ====================================================================
-// ====================================================================
-
-
 
 /**************************************************************************/
 /*
