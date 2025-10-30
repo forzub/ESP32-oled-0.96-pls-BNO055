@@ -18,6 +18,11 @@ OLED-дисплей использует протокол связи I2C
 
 ![image](https://github.com/user-attachments/assets/bbcdb57a-747a-4119-bd07-30d4185f80e3)
 
+```arduino ide
+Board: ESP32 Dev Module
+
+```
+
 # Устанавливаем библиотеки для OLED:
 
 esp8622 and esp32 oled driver for SSD1306 displays
